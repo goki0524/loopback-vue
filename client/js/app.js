@@ -16,6 +16,10 @@ let catApp = new Vue({
 		this.getCats();
 	},
 	methods:{
+		handleInfo:function(index, row) {
+			console.log('index', index);
+			console.log('row', row);
+		},
 		getCats:function() {
 			fetch(API)
 			.then(res => res.json())
@@ -44,8 +48,8 @@ let catApp = new Vue({
 				this.reset();
 			});
 		},
-		deleteCat:function(c) {
-			fetch(API + c.id, {
+		deleteCat:function(row) {
+			fetch(API + row.id, {
 				headers:{
 					'Content-Type':'application/json'
 				},
@@ -58,18 +62,19 @@ let catApp = new Vue({
 
 			// call reset cuz the cat could be 'active'
 			this.reset();
+			delete row;
 		},
-		editCat:function(c) {
+		editCat:function(row) {
 			/*
 			This line was bad as it made a reference, and as you typed, it updated
 			the list. A user may think they don't need to click save.
 			this.cat = c;
 			*/
-			this.cat.id = c.id;
-			this.cat.name = c.name;
-			this.cat.age = c.age;
-			this.cat.breed = c.breed;
-			this.cat.gender = c.gender;
+			this.cat.id = row.id;
+			this.cat.name = row.name;
+			this.cat.age = row.age;
+			this.cat.breed = row.breed;
+			this.cat.gender = row.gender;
 		},
 		reset:function() {
 			this.cat.id = '';
