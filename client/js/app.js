@@ -10,7 +10,9 @@ let catApp = new Vue({
 			age:'',
 			gender:'',
 			breed:''
-		}
+		},
+		dialogFormVisible: false,
+		formLabelWidth: '120px'
 	},
 	created:function() {
 		this.getCats();
@@ -45,6 +47,7 @@ let catApp = new Vue({
 			.then(res => res.json())
 			.then(res => {
 				this.getCats();
+				this.dialogFormVisible = false;
 				this.successNotice(this.cat);
 				this.reset();
 			});
@@ -71,6 +74,7 @@ let catApp = new Vue({
 			the list. A user may think they don't need to click save.
 			this.cat = c;
 			*/
+			this.dialogFormVisible = true;
 			this.cat.id = row.id;
 			this.cat.name = row.name;
 			this.cat.age = row.age;

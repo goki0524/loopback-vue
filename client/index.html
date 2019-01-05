@@ -15,43 +15,127 @@
   <body>
 
   <div id="catApp" v-cloak>
-    <h1>Cats</h1>
-  
   <template>
-    <el-table
-      :data="cats"
-      style="width: 100%">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <p>Age: {{ props.row.age }}</p>
-          <p>Breed: {{ props.row.breed }}</p>
-          <p>Gender: {{ props.row.gender }}</p>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="ID"
-        prop="id">
-      </el-table-column>
-      <el-table-column
-        label="Name"
-        prop="name">
-      </el-table-column>
-      <el-table-column
-        align="right">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="editCat(scope.row)">Edit</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="deleteCat(scope.row)">Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-container>
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '3']">
+              <el-submenu index="1">
+                <template slot="title"><i class="el-icon-message"></i>Navigator One</template>
+                <el-menu-item-group>
+                  <template slot="title">Group 1</template>
+                  <el-menu-item index="1-1">Option 1</el-menu-item>
+                  <el-menu-item index="1-2">Option 2</el-menu-item>
+                </el-menu-item-group>
+                <el-menu-item-group title="Group 2">
+                  <el-menu-item index="1-3">Option 3</el-menu-item>
+                </el-menu-item-group>
+                <el-submenu index="1-4">
+                  <template slot="title">Option4</template>
+                  <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
+                </el-submenu>
+              </el-submenu>
+              <el-submenu index="2">
+                <template slot="title"><i class="el-icon-menu"></i>Navigator Two</template>
+                <el-menu-item-group>
+                  <template slot="title">Group 1</template>
+                  <el-menu-item index="2-1">Option 1</el-menu-item>
+                  <el-menu-item index="2-2">Option 2</el-menu-item>
+                </el-menu-item-group>
+                <el-menu-item-group title="Group 2">
+                  <el-menu-item index="2-3">Option 3</el-menu-item>
+                </el-menu-item-group>
+                <el-submenu index="2-4">
+                  <template slot="title">Option 4</template>
+                  <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
+                </el-submenu>
+              </el-submenu>
+              <el-submenu index="3">
+                <template slot="title"><i class="el-icon-setting"></i>Navigator Three</template>
+                <el-menu-item-group>
+                  <template slot="title">Group 1</template>
+                  <el-menu-item index="3-1">Option 1</el-menu-item>
+                  <el-menu-item index="3-2">Option 2</el-menu-item>
+                </el-menu-item-group>
+                <el-menu-item-group title="Group 2">
+                  <el-menu-item index="3-3">Option 3</el-menu-item>
+                </el-menu-item-group>
+                <el-submenu index="3-4">
+                  <template slot="title">Option 4</template>
+                  <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
+                </el-submenu>
+              </el-submenu>
+            </el-menu>
+          </el-aside>
+        <el-container>
+          <el-header>header</el-header>
+          <el-main>
+              <h1>Cats</h1>
+              <el-table
+              :data="cats"
+              style="width: 100%">
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <p>Age: {{ props.row.age }}</p>
+                  <p>Breed: {{ props.row.breed }}</p>
+                  <p>Gender: {{ props.row.gender }}</p>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="ID"
+                prop="id">
+              </el-table-column>
+              <el-table-column
+                label="Name"
+                prop="name">
+              </el-table-column>
+              <el-table-column
+                align="right">
+                <template slot-scope="scope">
+                  <el-button
+                    size="mini"
+                    @click="editCat(scope.row)">Edit</el-button>
+                  <el-button
+                    size="mini"
+                    type="danger"
+                    @click="deleteCat(scope.row)">Delete</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button type="primary" round @click="dialogFormVisible = true">Add Cat</el-button>
+          </el-main>
+        </el-container>
+    </el-container>
+    
+
+    <!-- Form -->
+    <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+      <el-form :model="cat">
+        <el-form-item label="Name" :label-width="formLabelWidth">
+          <el-input v-model="cat.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Age" :label-width="formLabelWidth">
+          <el-input v-model="cat.age" type="number" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Breed" :label-width="formLabelWidth">
+            <el-input v-model="cat.breed" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Gender" :label-width="formLabelWidth">
+          <el-select v-model="cat.gender" placeholder="Please select a gender">
+            <el-option label="Male" value="Male"></el-option>
+            <el-option label="Female" value="Female"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false, reset()">Cancel</el-button>
+        <el-button type="primary" round @click.prevent="storeCat">Save Cat 🐱</el-button>
+      </span>
+    </el-dialog>
+
   </template>
 
-  <form @submit.prevent="storeCat">
+  
+  <!-- <form @submit.prevent="storeCat">
     <p>
     <label for="name">Name</label>
     <el-input id="name" placeholder="Cat name here!" v-model="cat.name"></el-input>
@@ -70,7 +154,8 @@
     </p>
     <el-button type="danger" native-type="reset" @click="reset" round>Reset</el-button>
     <el-button type="primary" native-type="submit" round>Save Cat 🐱</el-button>
-  </form>
+  </form> -->
+
   </div>
 
   <script src="https://unpkg.com/vue"></script>
