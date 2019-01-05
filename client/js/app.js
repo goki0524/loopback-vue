@@ -45,6 +45,7 @@ let catApp = new Vue({
 			.then(res => res.json())
 			.then(res => {
 				this.getCats();
+				this.successNotice(this.cat);
 				this.reset();
 			});
 		},
@@ -82,6 +83,13 @@ let catApp = new Vue({
 			this.cat.age = '';
 			this.cat.breed = '';
 			this.cat.gender = '';
+		},
+		successNotice:function(cat) {
+			this.$notify({
+				title: 'Success',
+				message: 'Added  ' + cat.name,
+				type: 'success'
+			});
 		}
 	}
 });
